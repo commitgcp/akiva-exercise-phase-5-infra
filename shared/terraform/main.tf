@@ -47,3 +47,4 @@ resource "google_artifact_registry_repository" "dev-repository" {
   description   = "docker repository"
   format        = "DOCKER"
 }
+#
