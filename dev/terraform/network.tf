@@ -1,7 +1,6 @@
-
 # create VPC
 resource "google_compute_network" "vpc" {
-  name                    = local.network_name
+  name                    = "dev-cluster-network"
   auto_create_subnetworks = false
 }
 
@@ -19,10 +18,15 @@ resource "google_compute_address" "my_internal_ip_addr" {
   project      = "akiva-exercise-phase5-dev"
   address_type = "INTERNAL"
   region       = "us-central1"
-  subnetwork   = local.master_auth_subnetwork
+  subnetwork   = "subnet1"
   name         = "jump-ip"
   address      = "10.0.0.7"
   description  = "An internal IP address for my jump host"
+
+  depends_on = [
+    google_compute_subnetwork.subnet
+  ]
+
 }
 
 resource "google_compute_instance" "default" {
@@ -37,8 +41,8 @@ resource "google_compute_instance" "default" {
     }
   }
   network_interface {
-    network    = local.network_name
-    subnetwork = local.master_auth_subnetwork
+    network    = google_compute_network.vpc.name
+    subnetwork = "subnet1"
     network_ip         = google_compute_address.my_internal_ip_addr.address
   }
 
@@ -51,7 +55,7 @@ resource "google_compute_instance" "default" {
 resource "google_compute_firewall" "rules" {
   project = "akiva-exercise-phase5-dev"
   name    = "allow-ssh"
-  network = local.network_name
+  network = google_compute_network.vpc.name
 
   allow {
     protocol = "tcp"
@@ -75,7 +79,7 @@ resource "google_compute_firewall" "rules" {
 resource "google_compute_router" "router" {
   project = "akiva-exercise-phase5-dev"
   name    = "nat-router"
-  network = local.network_name
+  network = google_compute_network.vpc.name
   region  = "us-central1"
 }
 
@@ -90,4 +94,3 @@ module "cloud-nat" {
   name       = "nat-config"
 
 }
-
