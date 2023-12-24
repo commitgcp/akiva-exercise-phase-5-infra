@@ -5,7 +5,7 @@ locals {
   master_auth_subnetwork = "simple-autopilot-private-master-subnet"
   pods_range_name        = "ip-range-pods-simple-autopilot-private"
   svc_range_name         = "ip-range-svc-simple-autopilot-private"
-  subnet_names           = [for subnet_self_link in module.gcp-network.subnets_self_links : split("/", subnet_self_link)[length(split("/", subnet_self_link)) - 1]]
+  subnet_names           = [google_compute_network.subnet.name]
 }
 
 

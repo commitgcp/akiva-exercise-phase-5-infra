@@ -1,7 +1,7 @@
 
 # create VPC
 resource "google_compute_network" "vpc" {
-  name                    = "vpc1"
+  name                    = local.network_name
   auto_create_subnetworks = false
 }
 
