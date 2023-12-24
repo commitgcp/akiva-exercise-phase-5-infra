@@ -56,4 +56,3 @@ resource "google_sql_user" "app_db_user" {
   password = "pass" 
 }
 
-#
