@@ -1,36 +1,16 @@
 
-module "gcp-network" {
-  source  = "terraform-google-modules/network/google"
-  version = ">= 7.5"
+# create VPC
+resource "google_compute_network" "vpc" {
+  name                    = "vpc1"
+  auto_create_subnetworks = false
+}
 
-  project_id   = "akiva-exercise-phase5-dev"
-  network_name = local.network_name
-
-  subnets = [
-    {
-      subnet_name   = local.subnet_name
-      subnet_ip     = "10.0.0.0/17"
-      subnet_region = "us-central1"
-    },
-    {
-      subnet_name   = local.master_auth_subnetwork
-      subnet_ip     = "10.60.0.0/17"
-      subnet_region = "us-central1"
-    },
-  ]
-
-  secondary_ranges = {
-    (local.subnet_name) = [
-      {
-        range_name    = local.pods_range_name
-        ip_cidr_range = "192.168.0.0/18"
-      },
-      {
-        range_name    = local.svc_range_name
-        ip_cidr_range = "192.168.64.0/18"
-      },
-    ]
-  }
+# Create Subnet
+resource "google_compute_subnetwork" "subnet" {
+  name          = "subnet1"
+  region        = "us-central1"
+  network       = google_compute_network.vpc.name
+  ip_cidr_range = "10.0.0.0/24"
 }
 
 ## Create jump host . We will allow this jump host to access GKE cluster. the ip of this jump host is already authorized to allowin the GKE cluster
@@ -41,7 +21,7 @@ resource "google_compute_address" "my_internal_ip_addr" {
   region       = "us-central1"
   subnetwork   = local.master_auth_subnetwork
   name         = "jump-ip"
-  address      = "10.60.0.7"
+  address      = "10.0.0.7"
   description  = "An internal IP address for my jump host"
 }
 
@@ -77,7 +57,7 @@ resource "google_compute_firewall" "rules" {
     protocol = "tcp"
     ports    = ["22"]
   }
-  source_ranges = ["35.235.240.0/20"]
+  source_ranges = ["35.235.240.0/20", "]
 }
 
 

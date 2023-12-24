@@ -25,21 +25,21 @@ module "gke" {
   name                            = "dev-app-cluster"
   regional                        = true
   region                          = "us-central1"
-  network                         = module.gcp-network.network_name
-  subnetwork                      = local.subnet_names[index(module.gcp-network.subnets_names, local.subnet_name)]
+  network                         = google_compute_network.vpc.name
+  subnetwork                      = google_compute_subnetwork.subnet.name
   ip_range_pods                   = local.pods_range_name
   ip_range_services               = local.svc_range_name
   release_channel                 = "REGULAR"
   enable_vertical_pod_autoscaling = true
   enable_private_endpoint         = true
   enable_private_nodes            = true
-  master_ipv4_cidr_block          = "172.16.0.0/28"
+  master_ipv4_cidr_block          = "10.13.0.0/28"
   network_tags                    = [local.cluster_type]
   deletion_protection             = false
 
   master_authorized_networks = [
     {
-      cidr_block   = "10.60.0.0/17"
+      cidr_block   = "10.0.0.7/32"
       display_name = "VPC"
     },
   ]
