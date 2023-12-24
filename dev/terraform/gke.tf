@@ -7,6 +7,15 @@ resource "google_container_cluster" "primary" {
   # networking_mode          = "VPC_NATIVE" 
   enable_autopilot = true
   
+    node_config {
+    preemptible  = true
+    machine_type = "e2-standard-4"
+
+    oauth_scopes    = [
+      "https://www.googleapis.com/auth/cloud-platform"
+    ]
+  }
+
   private_cluster_config {
     enable_private_endpoint = true
     enable_private_nodes   = true 
