@@ -57,13 +57,13 @@ resource "google_compute_firewall" "rules" {
     protocol = "tcp"
     ports    = ["22"]
   }
-  source_ranges = ["35.235.240.0/20", "]
+  source_ranges = ["35.235.240.0/20"]
 }
 
 
 
 ## Create IAP SSH permissions for your test instance
-
+#
 #resource "google_project_iam_member" "project" {
 #  project = "akiva-exercise-phase5-dev"
 #  role    = "roles/iap.tunnelResourceAccessor"
