@@ -39,6 +39,17 @@ resource "google_project_iam_member" "gke_cluster_admin_role" {
   member  = "serviceAccount:infra-creator-1233431248900943@akiva-exercise-phase5-dev.iam.gserviceaccount.com"
 }
 
+#resource "google_service_account_iam_member" "gke-default-account-iam-admin" {
+#  service_account_id = "projects/akiva-exercise-phase-5-dev/serviceAccounts/tf-gke-dev-app-cluster-11p7@akiva-exercise-phase5-dev.iam.gserviceaccount.com"
+#  role               = "roles/iam.serviceAccountAdmin"
+#  member             = "serviceAccount:infra-creator-1233431248900943@akiva-exercise-phase5-dev.iam.gserviceaccount.com"
+#}
+
+#resource "google_service_account_iam_member" "gke-default-account-iam-user" {
+#  service_account_id = "projects/akiva-exercise-phase-5-dev/serviceAccounts/tf-gke-dev-app-cluster-11p7@akiva-exercise-phase5-dev.iam.gserviceaccount.com"
+#  role               = "roles/iam.serviceAccountUser"
+#  member             = "serviceAccount:infra-creator-1233431248900943@akiva-exercise-phase5-dev.iam.gserviceaccount.com"
+#}
 
 resource "google_service_account" "code_builder_account" {
   account_id   = "code-builder-1233431248900943"
