@@ -5,7 +5,7 @@ locals {
   master_auth_subnetwork = "simple-autopilot-private-master-subnet"
   pods_range_name        = "ip-range-pods-simple-autopilot-private"
   svc_range_name         = "ip-range-svc-simple-autopilot-private"
-  subnet_names           = [google_compute_network.subnet.name]
+  subnet_names           = ["subnet1"]
 }
 
 

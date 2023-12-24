@@ -36,7 +36,7 @@ output "network_name" {
 
 output "subnet_names" {
   description = "The names of the subnet being created"
-  value       = google_compute_network.subnet.name
+  value       = "subnet1"
 }
 
 output "region" {
